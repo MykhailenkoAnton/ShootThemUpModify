@@ -6,9 +6,11 @@
 #include "Camera/CameraComponent.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Components/STUCharacterMovementComponent.h"
 
 // Sets default values
-ASTUBaseCharacter::ASTUBaseCharacter()
+ASTUBaseCharacter::ASTUBaseCharacter(const FObjectInitializer& ObjInit)
+    : Super(ObjInit.SetDefaultSubobjectClass<USTUCharacterMovementComponent>(ACharacter::CharacterMovementComponentName))
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -48,10 +50,13 @@ void ASTUBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
     PlayerInputComponent->BindAxis("TurnAround", this, &ASTUBaseCharacter::TurnAround); // can call from base class but i do it here for example
 
     PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ASTUBaseCharacter::Jump); // call from base class
+    PlayerInputComponent->BindAction("Run", IE_Pressed, this, &ASTUBaseCharacter::OnStartRunning);
+    PlayerInputComponent->BindAction("Run", IE_Released, this, &ASTUBaseCharacter::OnStopRunnig);
 }
 
 void ASTUBaseCharacter::MoveForward(float Amount) 
 {
+    IsMovingForward = Amount > 0.0f;
     AddMovementInput(GetActorForwardVector(), Amount);
 }
 
@@ -68,4 +73,18 @@ void ASTUBaseCharacter::LookUp(float Amount)
 void ASTUBaseCharacter::TurnAround(float Amount) 
 {
     AddControllerYawInput(Amount);
+}
+
+void ASTUBaseCharacter::OnStartRunning()
+{
+    WantsToRun = true;
+}
+void ASTUBaseCharacter::OnStopRunnig()
+{
+    WantsToRun = false;
+}
+
+bool ASTUBaseCharacter::IsRunning() const 
+{
+    return WantsToRun && IsMovingForward && !GetVelocity().IsZero();
 }
