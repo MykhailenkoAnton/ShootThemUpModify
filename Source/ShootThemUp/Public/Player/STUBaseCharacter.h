@@ -42,6 +42,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Movement")
     bool IsRunning() const;
 
+	UFUNCTION(BlueprintCallable, Category = "Movement")
+    float GetMovemetDirection() const;
+
 private:
     void MoveForward(float Amount);
 
