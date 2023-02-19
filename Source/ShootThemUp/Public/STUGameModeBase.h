@@ -7,7 +7,7 @@
 #include "STUGameModeBase.generated.h"
 
 /**
- * 
+ *  
  */
 UCLASS()
 class SHOOTTHEMUP_API ASTUGameModeBase : public AGameModeBase
