@@ -10,6 +10,7 @@ class UCameraComponent;
 class USpringArmComponent;
 class USTUHealthComponent;
 class UTextRenderComponent;
+//class UAnimMontage;
 
 UCLASS()
 class SHOOTTHEMUP_API ASTUBaseCharacter : public ACharacter
@@ -36,6 +37,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
     UTextRenderComponent* HealthTextComponent;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Animation")
+    UAnimMontage* DeathAnimMontage;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -52,6 +56,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Movement")
     float GetMovemetDirection() const;
 
+
 private:
     void MoveForward(float Amount);
 
@@ -65,4 +70,7 @@ private:
 
     void OnStopRunnig();
 
+	void OnDeath();
+
+	void OnHealthChanged(float health);
 };

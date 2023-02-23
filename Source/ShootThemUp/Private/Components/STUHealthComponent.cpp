@@ -3,6 +3,8 @@
 
 #include "Components/STUHealthComponent.h"
 
+DEFINE_LOG_CATEGORY_STATIC(LogHealthComponent, All, All);
+
 // Sets default values for this component's properties
 USTUHealthComponent::USTUHealthComponent()
 {
@@ -20,6 +22,7 @@ void USTUHealthComponent::BeginPlay()
 	Super::BeginPlay();
 
 	Health = MaxHealth;
+    OnHealthChanged.Broadcast(Health);
 
 	AActor* ComponentOwner = GetOwner();
 
@@ -42,5 +45,17 @@ void USTUHealthComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 void USTUHealthComponent::OnTakeAnyDamageHandle(
     AActor* DamagedActor, float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser)
 {
-    Health -= Damage;
+    if (Damage <= 0.0f || IsDead())
+    {
+        return;
+	}
+
+    Health = FMath::Clamp(Health - Damage, 0.0f, MaxHealth);
+    OnHealthChanged.Broadcast(Health);
+
+	if (IsDead())
+    {
+        OnDeath.Broadcast();
+	}
+
 }
