@@ -35,6 +35,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
     FName WeaponArmorySocketName = "ArmorySocket";
 
+	UPROPERTY(EditDefaultsOnly, Category = "Animation")
+    UAnimMontage* EquipAnimMontage;
+
 private:
     void SpawnWeapons();
 
@@ -49,6 +52,12 @@ private:
 	void AttachWeaponToSocket(ASTUBaseWeapon* Weapon, USceneComponent* SceneComponent, const FName& SocketName);
 
 	void EquipWeapon(int32 WeaponIndex);
+
+	void PlayAnimMontage(UAnimMontage * Animation);
+
+	void InitAnimations();
+
+	void OnEquipFinished(USkeletalMeshComponent * MeshComponent);
 
 public:
 	void NextWeapon();
