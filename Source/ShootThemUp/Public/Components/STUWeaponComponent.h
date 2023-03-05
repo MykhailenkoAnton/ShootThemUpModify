@@ -43,6 +43,8 @@ private:
 
 	int32 CurrentWeaponIndex = 0;
 
+	bool EquipAnimInProgress = false;
+
 	UPROPERTY()
     ASTUBaseWeapon* CurrentWeapon = nullptr;
 
@@ -58,6 +60,10 @@ private:
 	void InitAnimations();
 
 	void OnEquipFinished(USkeletalMeshComponent * MeshComponent);
+
+	bool CanFire() const;
+
+	bool CanEquip() const;
 
 public:
 	void NextWeapon();
