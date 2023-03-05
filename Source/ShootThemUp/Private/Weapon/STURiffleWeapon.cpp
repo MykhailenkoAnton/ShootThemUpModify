@@ -19,11 +19,21 @@ void ASTURiffleWeapon::StopFire()
 
 void ASTURiffleWeapon::MakeShot()
 {
-    if (!GetWorld()) return;
+    UE_LOG(LogTemp, Display, TEXT("ssdad"));
+
+    if (!GetWorld() || IsAmmoEmpty())
+    {
+        StopFire();
+        return;
+    }
 
     FVector TraceStart;
     FVector TraceEnd;
-    if (!GetTraceData(TraceStart, TraceEnd)) return;
+    if (!GetTraceData(TraceStart, TraceEnd))
+    {
+        StopFire();
+        return;
+    }
 
     FHitResult HitResult;
     MakeHit(HitResult, TraceStart, TraceEnd);
@@ -40,6 +50,8 @@ void ASTURiffleWeapon::MakeShot()
     {
         DrawDebugLine(GetWorld(), GetMuzzleWorldLocation(), TraceEnd, FColor::Red, false, 3.0f, 0.0f, 3.0f);
     }
+
+    DecreaseAmmo();
 }
 
 bool ASTURiffleWeapon::GetTraceData(FVector& TraceStart, FVector& TraceEnd) const
