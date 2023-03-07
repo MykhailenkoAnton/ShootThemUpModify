@@ -13,6 +13,7 @@ class UTextRenderComponent;
 class USTUWeaponComponent;
 //class UAnimMontage;
 
+
 UCLASS()
 class SHOOTTHEMUP_API ASTUBaseCharacter : public ACharacter
 {

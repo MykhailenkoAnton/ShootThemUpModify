@@ -8,6 +8,8 @@
 
 class USkeletalMeshComponent;
 
+DECLARE_MULTICAST_DELEGATE(FOnClimpEmptySignature);
+
 USTRUCT(BlueprintType)
 struct FAmmoData
 {
@@ -23,8 +25,6 @@ struct FAmmoData
     bool Infinite;
 };
 
-
-
 UCLASS()
 class SHOOTTHEMUP_API ASTUBaseWeapon : public AActor
 {
@@ -34,8 +34,13 @@ public:
 	// Sets default values for this actor's properties
 	ASTUBaseWeapon();
 
+	FOnClimpEmptySignature OnClimpEmpty;
+
 	virtual void StartFire();
     virtual void StopFire();
+
+    void ChangeClip();
+    bool CanReload() const;
 
 protected:
 	// Called when the game starts or when spawned
@@ -70,8 +75,6 @@ protected:
 	bool IsAmmoEmpty() const;
 
 	bool IsClipEmpty() const;
-
-	void ChangeClip();
 
 	void LogAmmo();
 

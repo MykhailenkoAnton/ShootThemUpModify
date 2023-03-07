@@ -103,6 +103,9 @@ private:
         return nullptr;
 	}
 
+	void OnEmptyClip();
+    void ChangeClip();
+
 public:
 	void NextWeapon();
 	
