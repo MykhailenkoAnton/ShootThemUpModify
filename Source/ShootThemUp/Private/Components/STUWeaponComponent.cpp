@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "Animations/STUEquipFinishedAnimNotify.h"
 #include "Animations/STUReloadFinishedAnimNotify.h"
+#include "Animations/AnimUtils.h"
+
 
 
 DEFINE_LOG_CATEGORY_STATIC(LogWeaponComponent, All, All);
@@ -131,17 +133,26 @@ void USTUWeaponComponent::PlayAnimMontage(UAnimMontage* Animation)
 
 void USTUWeaponComponent::InitAnimations()
 {
-    auto EquipFinishNotify = FindNotifyByClass<USTUEquipFinishedAnimNotify>(EquipAnimMontage);
+    auto EquipFinishNotify = AnimUtils::FindNotifyByClass<USTUEquipFinishedAnimNotify>(EquipAnimMontage);
     if (EquipFinishNotify)
     {
         EquipFinishNotify->OnNotified.AddUObject(this, &USTUWeaponComponent::OnEquipFinished);
     }
+    else
+    {
+        UE_LOG(LogWeaponComponent, Error, TEXT("No equip anim"));
+        checkNoEntry();
+    }
 
     for (auto OneWeaponData : WeaponData)
     {
-        auto ReloadFinishedNotify = FindNotifyByClass<USTUReloadFinishedAnimNotify>(OneWeaponData.ReloadAnimMontage);
-        if (!ReloadFinishedNotify) continue;
-        
+        auto ReloadFinishedNotify = AnimUtils::FindNotifyByClass<USTUReloadFinishedAnimNotify>(OneWeaponData.ReloadAnimMontage);
+        if (!ReloadFinishedNotify)
+        {
+            UE_LOG(LogWeaponComponent, Error, TEXT("No equip anim"));
+            checkNoEntry();
+        }
+
         ReloadFinishedNotify->OnNotified.AddUObject(this, &USTUWeaponComponent::OnReloadFinished);
         
     }
