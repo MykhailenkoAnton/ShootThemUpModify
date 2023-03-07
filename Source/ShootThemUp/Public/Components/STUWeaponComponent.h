@@ -57,6 +57,8 @@ private:
 
 	bool EquipAnimInProgress = false;
 
+	bool ReloadAnimInProgress = false;
+
 	UPROPERTY()
     ASTUBaseWeapon* CurrentWeapon = nullptr;
 
@@ -76,9 +78,30 @@ private:
 
 	void OnEquipFinished(USkeletalMeshComponent * MeshComponent);
 
+	void OnReloadFinished(USkeletalMeshComponent* MeshComponent);
+
 	bool CanFire() const;
 
 	bool CanEquip() const;
+
+	bool CanReload() const;
+
+	template<typename T>
+    T* FindNotifyByClass(UAnimSequenceBase * Animation)
+    {
+        if (!Animation) return nullptr;
+
+        const auto NotifiesEvents = Animation->Notifies;
+        for (auto NotifiyEvent : NotifiesEvents)
+        {
+            auto AnimNotify = Cast<T>(NotifiyEvent.Notify);
+            if (AnimNotify)
+            {
+                return AnimNotify;
+            }
+        }
+        return nullptr;
+	}
 
 public:
 	void NextWeapon();
