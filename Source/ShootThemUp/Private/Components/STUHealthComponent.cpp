@@ -24,6 +24,7 @@ void USTUHealthComponent::BeginPlay()
 	Super::BeginPlay();
 
 	SetHealth(MaxHealth);
+    check(MaxHealth > 0);
 
 	AActor* ComponentOwner = GetOwner();
 

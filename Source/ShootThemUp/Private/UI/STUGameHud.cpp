@@ -3,6 +3,20 @@
 
 #include "UI/STUGameHud.h"
 #include "Engine/Canvas.h"
+#include "Blueprint/UserWidget.h"
+
+
+void ASTUGameHud::BeginPlay()
+{
+    Super::BeginPlay();
+
+    auto PlayerHUDWidget = CreateWidget<UUserWidget>(GetWorld(), PlayerHUDWidgetClass);
+
+    if (PlayerHUDWidget)
+    {
+        PlayerHUDWidget->AddToViewport();
+    }
+}
 
 void ASTUGameHud::DrawHUD() 
 {
@@ -22,3 +36,4 @@ void ASTUGameHud::DrawCrossHair()
     DrawLine(Center.Min - HalfLineSize, Center.Max, Center.Min + HalfLineSize, Center.Max, LineColor, LinearThickness);
     DrawLine(Center.Min, Center.Max - HalfLineSize, Center.Min, Center.Max + HalfLineSize, LineColor, LinearThickness);
 }
+
