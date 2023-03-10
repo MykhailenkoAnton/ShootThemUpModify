@@ -84,4 +84,7 @@ public:
 	void NextWeapon();
 	
 	void Reload();
+
+	bool GetWeaponUIData(FWeaponUIData& UIData) const;
+
 };
