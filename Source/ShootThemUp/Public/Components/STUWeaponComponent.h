@@ -85,6 +85,6 @@ public:
 	
 	void Reload();
 
-	bool GetWeaponUIData(FWeaponUIData& UIData) const;
-
+	bool GeCurrenttWeaponUIData(FWeaponUIData& UIData) const;
+    bool GetCurrentWeaponAmmoData(FAmmoData& AmmoData) const;
 };
