@@ -21,6 +21,8 @@ public:
 	void StartFire();
     void StopFire();
 
+	bool TyToAddAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType, int32 ClipsAmount);
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -77,7 +79,7 @@ private:
 
 	
 
-	void OnEmptyClip();
+	void OnEmptyClip(ASTUBaseWeapon * AmmoEmtyWeapon);
     void ChangeClip();
 
 public:

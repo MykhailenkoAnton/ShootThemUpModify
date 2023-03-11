@@ -3,7 +3,7 @@
 
 class ASTUBaseWeapon;
 // weapon
-DECLARE_MULTICAST_DELEGATE(FOnClimpEmptySignature);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnClimpEmptySignature, ASTUBaseWeapon*);
 USTRUCT(BlueprintType)
 struct FAmmoData
 {

@@ -195,9 +195,24 @@ void USTUWeaponComponent::Reload()
     ChangeClip();
 }
 
-void USTUWeaponComponent::OnEmptyClip() 
+void USTUWeaponComponent::OnEmptyClip(ASTUBaseWeapon* AmmoEmtyWeapon)
 {
-    ChangeClip();
+    if (!AmmoEmtyWeapon) return;
+
+    if (CurrentWeapon == AmmoEmtyWeapon)
+    {
+        ChangeClip();
+    }
+    else
+    {
+        for (const auto Weapon: Weapons)
+        {
+            if (Weapon == AmmoEmtyWeapon)
+            {
+                Weapon->ChangeClip();
+            }
+        }
+    }
 }
 
 void USTUWeaponComponent::ChangeClip()
@@ -229,5 +244,17 @@ bool USTUWeaponComponent::GetCurrentWeaponAmmoData(FAmmoData& AmmoData) const
         return true;
     }
 
+    return false;
+}
+
+bool USTUWeaponComponent::TyToAddAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType, int32 ClipsAmount) 
+{
+    for (const auto Weapon : Weapons)
+    {
+        if (Weapon && Weapon->IsA(WeaponType))
+        {
+            return Weapon->TryToAddAmmo(ClipsAmount);
+        }
+    }
     return false;
 }

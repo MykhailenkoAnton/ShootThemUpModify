@@ -30,9 +30,13 @@ public:
 
 	FAmmoData GetAmmoData() const { return CurrentAmmo; }
 
+	bool TryToAddAmmo(int32 ClipsAmount);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	bool IsAmmoFull() const;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Weapon")
 	FName MuzzleSocketName = "MuzzleSocket";
