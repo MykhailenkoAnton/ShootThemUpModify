@@ -8,6 +8,7 @@
 
 class USphereComponent;
 class UProjectileMovementComponent;
+class USTUWeaponFXComponent;
 
 UCLASS()
 class SHOOTTHEMUP_API ASTUProjectile : public AActor
@@ -42,8 +43,10 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
     float LifeSeconds = 5.f;
 
-
     TArray<AActor*> OutActors;
+
+	UPROPERTY(VisibleAnywhere, Category = "VFX")
+    USTUWeaponFXComponent* WeaponFXComponent;
 
 private:
     FVector ShotDirection;
